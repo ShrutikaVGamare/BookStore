@@ -11,7 +11,13 @@ public class Book
 	private String book_category;
 	private String book_description;
 	private int book_threshold;
-	
+	private double discountprice;
+	public double getDiscountprice() {
+		return discountprice;
+	}
+	public void setDiscountprice(double discountprice) {
+		this.discountprice = discountprice;
+	}
 	public int getISBN() {
 		return ISBN;
 	}

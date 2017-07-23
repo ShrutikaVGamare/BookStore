@@ -16,5 +16,6 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/shrut/Downloads/postgresql-42.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/shrut/Downloads/javax.servlet.jsp.jstl-api-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/shrut/Downloads/jstl-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shrut/Downloads/mail-1.4.7.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

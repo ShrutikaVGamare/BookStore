@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.shrutika.mvc.dto.CardDetails;
 import org.shrutika.mvc.dto.ShippingAddress;
+import org.shrutika.mvc.service.TransactionService;
 
 /**
  * Servlet implementation class CardServlet
@@ -58,6 +59,8 @@ public class CardServlet extends HttpServlet {
 		details.setExpiratationDate(request.getParameter("expDate"));
 		request.setAttribute("shippingId", request.getParameter("shippingId"));
 		request.setAttribute("carddetails", details);
+		TransactionService service =new TransactionService();
+		String result=service.performTransaction(details,request.getParameter("shippingId"));
 		try 
 		{ 
 			RequestDispatcher dispatcher=request.getRequestDispatcher("confirmCheckout.jsp");

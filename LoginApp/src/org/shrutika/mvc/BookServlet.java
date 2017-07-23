@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.shrutika.mvc.dto.Book;
+import org.shrutika.mvc.dto.SalesReport;
 import org.shrutika.mvc.service.BookService;
 
 /**
@@ -55,6 +56,18 @@ public class BookServlet extends HttpServlet {
 		{
 			viewAllBooks(request,response);
 		}
+		else if(action.equals("viewSales"))
+		{
+			viewEndofDaySales(request,response);
+		}
+	}
+
+	private void viewEndofDaySales(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		SalesReport report=new SalesReport();
+		BookService service=new BookService();
+		report=service.getEndOfSales();
+		request.setAttribute("report", report);
 	}
 
 	/**

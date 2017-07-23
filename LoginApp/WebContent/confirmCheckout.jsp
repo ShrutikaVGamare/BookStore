@@ -9,7 +9,7 @@
 <body>
 <form method="post" action="CardServlet">
 <input type="hidden" name="action" value="submitTransaction">
-<input type="hidden" name="shippingId" value="${requestScope.shippingid}">
+<input type="hidden" name="shippingId" value="${requestScope.shippingId}">
 
 
 Card Number : ${requestScope.carddetails.cardNo} <input type="hidden" name="cardNo" value="${requestScope.carddetails.cardNo}"><br/>

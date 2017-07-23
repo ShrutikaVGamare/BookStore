@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.shrutika.mvc.dao.BookDao;
 import org.shrutika.mvc.dto.Book;
+import org.shrutika.mvc.dto.SalesReport;
 
 public class BookService 
 {
@@ -41,6 +42,13 @@ public class BookService
 		BookDao bookDao=new BookDao();
 		List<Book> books=bookDao.viewAllBooks();
 		return books;
+	}
+
+	public SalesReport getEndOfSales() {
+		BookDao bookDao=new BookDao();
+		SalesReport salesReport=new SalesReport();
+		salesReport=bookDao.getSalesReport();
+		return salesReport;
 	}
 	
 

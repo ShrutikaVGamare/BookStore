@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.shrutika.mvc.dto.Book;
+import org.shrutika.mvc.dto.SalesReport;
 
 public class BookDao {
 
@@ -265,6 +266,73 @@ public class BookDao {
 			}
 
 		return books;
+	}
+
+	public SalesReport getSalesReport() {
+
+		 Connection conn=null;
+		 SalesReport salesReport=new SalesReport();
+			try
+			{
+			String driver="org.postgresql.Driver";
+			Class.forName(driver).newInstance();
+			
+			Properties props = new Properties();
+			props.setProperty("user","postgres");
+			props.setProperty("password","shrutika");
+			//props.setProperty("ssl","true");
+			
+			conn=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",props);
+			PreparedStatement ps=conn.prepareStatement("select sum(quantity),sum(actualprice),sum(discountprice) from transactions where transactiondate=current_date");
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next())
+			{
+				salesReport.setTotalActualPrice(rs.getDouble(2));
+				salesReport.setTotalPriceSoldfor(rs.getDouble(3));
+				salesReport.setTotalQuantitysold(rs.getInt(1));
+			}
+			List<Integer> isbnList=new ArrayList<Integer>();
+			ps=conn.prepareStatement("select distinct isbn from transactions where transactiondate=current_date");
+			rs=ps.executeQuery();
+			while(rs.next())
+			{
+				isbnList.add(rs.getInt(1));
+				
+			}
+			for(Integer isbn:isbnList)
+			{
+				ps=conn.prepareStatement("select sum(quantity),sum(actualprice),sum(discountprice) from transactions where transactiondate=current_date and isbn=?");
+				ps.setInt(1, isbn);
+				rs=ps.executeQuery();
+				if(rs.next())
+				{
+					Book book=new Book();
+					book.setISBN(isbn);
+					book.setBook_quantity(rs.getInt(1));
+					book.setBook_price(rs.getDouble(2));
+					book.setDiscountprice(rs.getDouble(3));
+					salesReport.getBook().add(book);
+				}
+				
+			}
+			}
+			catch(Exception e)
+			{   e.printStackTrace();
+				throw new RuntimeException();
+			}
+			finally
+			{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return salesReport;
+
+		
 	}
 
 }
