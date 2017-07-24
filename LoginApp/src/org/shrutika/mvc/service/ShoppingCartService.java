@@ -30,4 +30,14 @@ public class ShoppingCartService {
 		return shoppingCartDao.getPrices(userid);
 	}
 
+	public List<ShoppingCart> deleteItemFromCart(int cartId, String userId) {
+		// TODO Auto-generated method stub
+		return new ShoppingCartDao().deleteItemFromCart(cartId,userId);
+	}
+
+	public List<ShoppingCart> emptyCart(String userId) {
+		// TODO Auto-generated method stub
+		return new ShoppingCartDao().emptyCart(userId);
+	}
+
 }

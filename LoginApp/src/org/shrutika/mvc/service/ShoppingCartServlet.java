@@ -43,6 +43,61 @@ public class ShoppingCartServlet extends HttpServlet {
 		{
 			viewCart(request,response);
 		}
+		else if(action.equals("deletebyId"))
+		{
+			deletebyId(request,response);
+		}
+		else if(action.equals("shippingaddress"))
+		{
+			response.sendRedirect("shippingAddress.jsp");
+		}
+		else if(action.equals("emptyCart"))
+		{
+			emptyCart(request,response);
+		}
+	}
+
+	private void emptyCart(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+		ShoppingCartService service=new ShoppingCartService();
+		List<ShoppingCart> shoppingCart=service.emptyCart("shru");
+		request.setAttribute("shoppingcart", shoppingCart);
+		List<Double> prices=service.getPrices("shru");
+		request.setAttribute("totalActualPrice", prices.get(0));
+		request.setAttribute("totalDiscountedPrice", prices.get(1));
+
+		try 
+		{ 
+			RequestDispatcher dispatcher=request.getRequestDispatcher("checkoutview.jsp");
+			dispatcher.forward(request, response);
+			
+		} catch (IOException | ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void deletebyId(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		String cartid=request.getParameter("id");
+		System.out.println("Cart id is "+cartid);
+		ShoppingCartService service=new ShoppingCartService();
+		List<ShoppingCart> shoppingCart=service.deleteItemFromCart(Integer.parseInt(cartid),"shru");
+		request.setAttribute("shoppingcart", shoppingCart);
+		List<Double> prices=service.getPrices("shru");
+		request.setAttribute("totalActualPrice", prices.get(0));
+		request.setAttribute("totalDiscountedPrice", prices.get(1));
+
+		try 
+		{ 
+			RequestDispatcher dispatcher=request.getRequestDispatcher("checkoutview.jsp");
+			dispatcher.forward(request, response);
+			
+		} catch (IOException | ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void viewCart(HttpServletRequest request, HttpServletResponse response) 

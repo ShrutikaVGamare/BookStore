@@ -55,4 +55,9 @@ $( document ).ready(function() {
     }
     );
 
+    $("#emptyCart").click(function() {
+    	
+    	$("#hiddenAction").val('emptyCart');
+    	 $('#checkoutForm').submit();
+	});
 });

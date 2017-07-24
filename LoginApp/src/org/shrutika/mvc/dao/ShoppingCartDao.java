@@ -267,4 +267,162 @@ public class ShoppingCartDao {
 		return priceList;
 	}
 
+	public List<ShoppingCart> deleteItemFromCart(int cartId, String userid) {
+		// TODO Auto-generated method stub
+		List<ShoppingCart> shoppedItems=new ArrayList<ShoppingCart>();
+		ShoppingCart shopcart=null;
+		
+		Connection conn=null;
+			try
+			{
+			String driver="org.postgresql.Driver";
+			Class.forName(driver).newInstance();
+			
+			Properties props = new Properties();
+			props.setProperty("user","postgres");
+			props.setProperty("password","shrutika");
+			//props.setProperty("ssl","true");
+			
+			conn=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",props);
+			PreparedStatement ps1=conn.prepareStatement("update shoppingcart set cartstatus='R' where cartid=? and userid=?");
+			ps1.setInt(1, cartId);
+			ps1.setString(2,"shru");
+			ps1.executeUpdate();
+		
+			    
+			PreparedStatement ps=conn.prepareStatement("select * from shoppingcart where userid=? and cartstatus='A'");
+			ps.setString(1,"shru");
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next())
+			{
+				shopcart=new ShoppingCart();
+				shopcart.setUserId(rs.getString("userid"));
+				shopcart.setQuantity(rs.getInt("quantity"));
+				shopcart.setPromocode(rs.getInt("promocode"));
+				shopcart.setActualprice(rs.getDouble("actualprice"));
+				shopcart.setDiscountedprice(rs.getDouble("discountedprice"));
+				shopcart.setIsbn(rs.getInt("isbn"));
+				shopcart.setCartid(rs.getInt("cartid"));
+				ps=conn.prepareStatement("select * from books where isbn=?");
+				ps.setInt(1, shopcart.getIsbn());
+				ResultSet rs1=ps.executeQuery();
+				Book book=new Book();
+				
+				while(rs1.next())
+				{
+					book.setISBN(shopcart.getIsbn());
+					book.setBook_title(rs1.getString("title"));
+					book.setBook_price(rs1.getDouble("price"));
+					book.setBook_quantity(rs1.getInt("quantity"));
+					book.setBook_cover(rs1.getString("coverphoto"));
+					book.setBook_category(rs1.getString("category"));
+					book.setBook_description(rs1.getString("description"));
+					book.setBook_threshold(rs1.getInt("thresholdlimit"));
+				}
+				
+				shopcart.setBook(book);
+				
+				shoppedItems.add(shopcart);
+			}
+
+			// execute insert SQL statement
+
+			
+			}
+			catch(Exception e)
+			{   e.printStackTrace();
+				throw new RuntimeException();
+			}
+			finally
+			{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return shoppedItems;
+	
+	}
+
+	public List<ShoppingCart> emptyCart(String userId) {
+		// TODO Auto-generated method stub
+		List<ShoppingCart> shoppedItems=new ArrayList<ShoppingCart>();
+		ShoppingCart shopcart=null;
+		
+		Connection conn=null;
+			try
+			{
+			String driver="org.postgresql.Driver";
+			Class.forName(driver).newInstance();
+			
+			Properties props = new Properties();
+			props.setProperty("user","postgres");
+			props.setProperty("password","shrutika");
+			//props.setProperty("ssl","true");
+			
+			conn=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",props);
+			PreparedStatement ps1=conn.prepareStatement("update shoppingcart set cartstatus='R' where userid=?");
+			ps1.setString(1,"shru");
+			ps1.executeUpdate();
+		
+			    
+			PreparedStatement ps=conn.prepareStatement("select * from shoppingcart where userid=? and cartstatus='A'");
+			ps.setString(1,"shru");
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next())
+			{
+				shopcart=new ShoppingCart();
+				shopcart.setUserId(rs.getString("userid"));
+				shopcart.setQuantity(rs.getInt("quantity"));
+				shopcart.setPromocode(rs.getInt("promocode"));
+				shopcart.setActualprice(rs.getDouble("actualprice"));
+				shopcart.setDiscountedprice(rs.getDouble("discountedprice"));
+				shopcart.setIsbn(rs.getInt("isbn"));
+				shopcart.setCartid(rs.getInt("cartid"));
+				ps=conn.prepareStatement("select * from books where isbn=?");
+				ps.setInt(1, shopcart.getIsbn());
+				ResultSet rs1=ps.executeQuery();
+				Book book=new Book();
+				
+				while(rs1.next())
+				{
+					book.setISBN(shopcart.getIsbn());
+					book.setBook_title(rs1.getString("title"));
+					book.setBook_price(rs1.getDouble("price"));
+					book.setBook_quantity(rs1.getInt("quantity"));
+					book.setBook_cover(rs1.getString("coverphoto"));
+					book.setBook_category(rs1.getString("category"));
+					book.setBook_description(rs1.getString("description"));
+					book.setBook_threshold(rs1.getInt("thresholdlimit"));
+				}
+				
+				shopcart.setBook(book);
+				
+				shoppedItems.add(shopcart);
+			}
+
+			// execute insert SQL statement
+
+			
+			}
+			catch(Exception e)
+			{   e.printStackTrace();
+				throw new RuntimeException();
+			}
+			finally
+			{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return shoppedItems;
+	}
+
 }

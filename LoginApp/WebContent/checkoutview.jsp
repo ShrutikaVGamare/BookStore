@@ -7,22 +7,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	  <script src="js/cart.js">
+	  
+	</script>
 </head>
 <body>
 View
-<form method="post" action="">
-<input type="hidden" name="action" value="shippingaddress">
+<form id="checkoutForm" method="post" action="ShoppingCartServlet">
+<input type="hidden" id="hiddenAction" name="action" value="shippingaddress">
 <table>
 <c:forEach items="${requestScope.shoppingcart}" var="item">
 <tr>
 <td style="display: none;">${item.cartid}</td>
 <td>${item.isbn}</td><td>${item.quantity}</td>
 <td>${item.book.book_title}</td><td>${item.actualprice}</td>
-<td>${item.discountedprice}</td><td><a href="">delete Item From Cart</a></td>
+<td>${item.discountedprice}</td><td><a href="ShoppingCartServlet?action=deletebyId&id=${item.cartid}">delete Item From Cart</a></td>
 </tr>
 
 </c:forEach>
-<button type="button" class="button">Remove All Items</button>
+<button type="button" id="emptyCart" class="button">Remove All Items</button>
 <input type="submit" value="Proceed to Checkout"></input>
 
 
