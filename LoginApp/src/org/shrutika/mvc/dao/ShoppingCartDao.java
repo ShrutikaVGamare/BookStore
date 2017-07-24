@@ -422,7 +422,8 @@ public class ShoppingCartDao {
 					e.printStackTrace();
 				}
 			}
-			return shoppedItems;
+			return
+					shoppedItems;
 	}
 
 }
